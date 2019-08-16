@@ -47,6 +47,7 @@ public class GameMap {
                 }
 
                 grid[i][j] = new Area(town);
+                grid[i][j].generateItems();
             }
         }
     }

@@ -19,14 +19,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        p =  Player.getInstance();
+        playerSetup();
 
         g = GameMap.getInstance();
         g.genLocations();
 
         viewSetup();
-
-        updatePlayerStats();
 
         north.setOnClickListener(new View.OnClickListener ()
         {
@@ -163,6 +161,14 @@ public class MainActivity extends AppCompatActivity {
         health = (TextView)findViewById(R.id.health);
         cash = (TextView)findViewById(R.id.cash);
         coords = (TextView)findViewById(R.id.coords);
+    }
+
+    public void playerSetup()
+    {
+        p =  Player.getInstance();
+        p.hardcodeItems();
+
+        updatePlayerStats();
     }
 
 }
