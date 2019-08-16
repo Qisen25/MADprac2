@@ -102,5 +102,6 @@ public class Player {
     public void hardcodeItems()
     {
         this.equips.add(new Equipment("stick", 5, 5));
+        this.equips.add(new Equipment("book", 50, 2));
     }
 }
