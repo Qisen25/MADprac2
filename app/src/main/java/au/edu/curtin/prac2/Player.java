@@ -65,11 +65,12 @@ public class Player {
     }
 
     public void setHealth(double health) {
-        if(this.health < 100)
+        if(this.health < 100) {
             this.health = health;
-
-        if(this.health > 100)
+        }
+        else {
             this.health = 100;
+        }
     }
 
     public double getEquipMass() {
