@@ -1,5 +1,6 @@
 package au.edu.curtin.prac2;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,12 +20,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        playerSetup();
-
-        g = GameMap.getInstance();
-        g.genLocations();
-
         viewSetup();
+        playerSetup();
+        mapSetup();
 
         north.setOnClickListener(new View.OnClickListener ()
         {
@@ -133,11 +131,15 @@ public class MainActivity extends AppCompatActivity {
     {
         if(a[row][col].isTown())
         {
-            isTown.setText("Town");
+            Intent intent = new Intent(MainActivity.this, MarketActivity.class);
+            intent.putExtra("health", p.getHealth());
+            intent.putExtra("cash", p.getCash());
+            intent.putExtra("area", a[row][col]);
+            startActivity(intent);
         }
         else
         {
-            isTown.setText("Wilderness");
+
         }
     }
 
@@ -171,4 +173,9 @@ public class MainActivity extends AppCompatActivity {
         updatePlayerStats();
     }
 
+    public void mapSetup()
+    {
+        g = GameMap.getInstance();
+        g.genLocations();
+    }
 }
