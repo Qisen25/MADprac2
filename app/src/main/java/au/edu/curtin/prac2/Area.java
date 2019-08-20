@@ -1,5 +1,6 @@
 package au.edu.curtin.prac2;
 
+import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -49,10 +50,45 @@ public class Area implements Parcelable{
         this.items = items;
     }
 
+    public void addItem(Item item)
+    {
+        this.items.add(item);
+    }
+
     public void generateItems()
     {
-        this.items.add(new Equipment("junk", 500, 40));
-        this.items.add(new Food("Melon", 25, 40));
+        for(int i = 0; i < 3; i++)
+        {
+            int randomNum = (int)(Math.random() * 9 + 1);
+            boolean special = false;
+            if(randomNum == 1)
+            {
+                this.items.add(new Equipment("junk", 2, 40));
+                this.items.add(new Food("Melon", 25, 40));
+            }
+            else if(randomNum == 6)
+            {
+                this.items.add(new Equipment("knife", 20, 2));
+                this.items.add(new Food("peanut", 5, 40));
+            }
+            else if(randomNum == 3)
+            {
+                this.items.add(new Equipment("Hood", 20, 1));
+            }
+            else if(randomNum == 5)
+            {
+                this.items.add(new Equipment("Bucket Helmet", 80, 10));
+            }
+            else if(randomNum == 4 && isTown())
+            {
+                this.items.add(new Food("Beer", 7, -1.0));
+                this.items.add(new Food("Fried Chicken", 5, 10));
+            }
+            else if(randomNum == 8 && isTown())
+            {
+                this.items.add(new Equipment("Steel chestplate", 7, 50.0));
+            }
+        }
     }
 
     @Override

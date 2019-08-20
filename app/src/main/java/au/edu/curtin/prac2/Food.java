@@ -3,36 +3,44 @@ package au.edu.curtin.prac2;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Food extends Item implements Parcelable {
+public class Food extends Item implements Parcelable
+{
     private double health;
 
-    public Food(String desc, int value, double health) {
+    public Food(String desc, int value, double health)
+    {
         super(desc, value);
         this.health = health;
     }
 
-    public Food(Parcel in){
+    public Food(Parcel in)
+    {
         super(in);
         this.health = in.readDouble();
     }
 
-    public static final Creator<Food> CREATOR = new Creator<Food>() {
+    public static final Creator<Food> CREATOR = new Creator<Food>()
+    {
         @Override
-        public Food createFromParcel(Parcel parcel) {
+        public Food createFromParcel(Parcel parcel)
+        {
             return new Food(parcel);
         }
 
         @Override
-        public Food[] newArray(int i) {
+        public Food[] newArray(int i)
+        {
             return new Food[0];
         }
     };
 
-    public double getHealth() {
+    public double getHealth()
+    {
         return health;
     }
 
-    public void setHealth(double health) {
+    public void setHealth(double health)
+    {
         this.health = health;
     }
 
@@ -43,13 +51,21 @@ public class Food extends Item implements Parcelable {
     }
 
     @Override
-    public int describeContents() {
+    public int describeContents()
+    {
         return super.describeContents();
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int i)
+    {
         super.writeToParcel(parcel, i);
         parcel.writeDouble(health);
+    }
+
+    @Override
+    public String displayStat()
+    {
+        return "heal: " + health;
     }
 }

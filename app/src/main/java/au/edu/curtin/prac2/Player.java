@@ -5,13 +5,14 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player{
+public class Player
+{
 
     private static Player play = null;
 
     public static Player getInstance()
     {
-        if(play == null)
+        if (play == null)
         {
             play = new Player();
         }
@@ -32,78 +33,106 @@ public class Player{
         this.health = 100;
         this.rowLoc = 3;
         this.colLoc = 3;
-        this.cash = 0;
+        this.cash = 500;
         this.equips = new ArrayList<>();
+        equipMass = 0.0;
     }
 
-    public int getRowLoc() {
+    public int getRowLoc()
+    {
         return rowLoc;
     }
 
-    public void setRowLoc(int rowLoc) {
+    public void setRowLoc(int rowLoc)
+    {
         this.rowLoc = rowLoc;
-        this.health = Math.max(0.0, this.health - 5.0 - (this.equipMass/2.0));
+        this.health = Math.max(0.0, this.health - 5.0 - (this.equipMass / 2.0));
     }
 
-    public int getColLoc() {
+    public int getColLoc()
+    {
         return colLoc;
     }
 
-    public void setColLoc(int colLoc) {
+    public void setColLoc(int colLoc)
+    {
         this.colLoc = colLoc;
-        this.health = Math.max(0.0, this.health - 5.0 - (this.equipMass/2.0));
+        this.health = Math.max(0.0, this.health - 5.0 - (this.equipMass / 2.0));
     }
 
-    public int getCash() {
+    public int getCash()
+    {
         return cash;
     }
 
-    public void setCash(int cash) {
+    public void setCash(int cash)
+    {
         this.cash = cash;
     }
 
-    public double getHealth() {
+    public double getHealth()
+    {
         return health;
     }
 
-    public void setHealth(double health) {
-        if(this.health < 100) {
-            this.health = health;
+    public void setHealth(double heal)
+    {
+        if ((this.health + heal) < 100)
+        {
+            this.health += heal;
         }
-        else {
+        else
+        {
             this.health = 100;
         }
     }
 
-    public double getEquipMass() {
+    public double getEquipMass()
+    {
         return equipMass;
     }
 
-    public void setEquipMass(double equipMass) {
+    public void setEquipMass(double equipMass)
+    {
         this.equipMass = equipMass;
     }
 
-    public List<Equipment> getEquips() {
+    public List<Equipment> getEquips()
+    {
         return equips;
     }
 
-    public void setEquips(List<Equipment> equips) {
+    public void setEquips(List<Equipment> equips)
+    {
         this.equips = equips;
     }
 
     public void reset()
     {
         this.health = 100;
+        this.rowLoc = 3;
+        this.colLoc = 3;
+        this.cash = 500;
         this.equips = new ArrayList<>();
-        this.equipMass = 0;
-        this.cash = 0;
-        this.colLoc = 0;
-        this.rowLoc = 0;
+        equipMass = 0.0;
+        this.hardcodeItems();
     }
 
     public void hardcodeItems()
     {
-        this.equips.add(new Equipment("stick", 5, 5));
-        this.equips.add(new Equipment("book", 50, 2));
+        this.addItem(new Equipment("stick", 5, 5));
+        this.addItem(new Equipment("book", 50, 2));
+    }
+
+    public void addItem(Equipment item)
+    {
+        this.equips.add(item);
+        this.equipMass += item.getMass();
+    }
+
+    public void removeItem(Equipment item)
+    {
+        this.equips.remove(item);
+        this.equipMass -= item.getMass();
     }
 }

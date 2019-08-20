@@ -50,5 +50,11 @@ public class GameMap {
                 grid[i][j].generateItems();
             }
         }
+        grid[2][1].addItem(new Equipment("Lute", 98, 10));
+        grid[1][1].addItem(new Equipment("Horn", 98, 10));
+        grid[1][3].addItem(new Equipment("Book of the Bards", 50, 10));
+        grid[4][5].addItem(new Equipment("Lightsaber",100000 , 5));
+        grid[3][1].addItem(new Equipment("Robes", 250, 5));
+
     }
 }

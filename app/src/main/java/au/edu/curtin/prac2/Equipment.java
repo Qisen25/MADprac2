@@ -46,4 +46,9 @@ public class Equipment extends Item implements Parcelable {
         super.writeToParcel(parcel, i);
         parcel.writeDouble(mass);
     }
+
+    @Override
+    public String displayStat(){
+        return "mass: " + mass;
+    }
 }

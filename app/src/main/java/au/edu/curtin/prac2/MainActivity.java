@@ -5,15 +5,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     private Button reset, north, west, south, east, options;
-    private TextView desc, isTown, health, cash, coords;
+    private TextView desc, isTown, health, cash, coords, massStat;
     private Player p;
     private GameMap g;
+
+    private static final int REQUEST_CODE_MARKET = 0;
+    private static final int REQUEST_CODE_WILD = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         viewSetup();
         playerSetup();
         mapSetup();
+        printIsTown(p.getRowLoc(), p.getColLoc(), g.getGrid());
 
         north.setOnClickListener(new View.OnClickListener ()
         {
@@ -135,21 +138,37 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("health", p.getHealth());
             intent.putExtra("cash", p.getCash());
             intent.putExtra("area", a[row][col]);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_CODE_MARKET);
         }
         else
         {
-
+            Intent intent = new Intent(MainActivity.this, WildernessActivity.class);
+            intent.putExtra("health", p.getHealth());
+            intent.putExtra("cash", p.getCash());
+            intent.putExtra("area", a[row][col]);
+            startActivityForResult(intent, REQUEST_CODE_WILD);
         }
     }
 
-    public void updatePlayerStats()
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if(resultCode == RESULT_OK && (requestCode == REQUEST_CODE_MARKET || requestCode == REQUEST_CODE_WILD))
+        {
+            updatePlayerStats();
+            Area area = data.getParcelableExtra("area");
+            updateArea(area);
+        }
+    }
+
+    private void updatePlayerStats()
     {
         health.setText("Health: " + p.getHealth());
         cash.setText("Cash: " + p.getCash());
+        massStat.setText("Carry Mass: " + p.getEquipMass());
     }
 
-    public void viewSetup()
+    private void viewSetup()
     {
         reset = (Button) findViewById(R.id.reset);
         north = (Button) findViewById(R.id.north);
@@ -163,9 +182,10 @@ public class MainActivity extends AppCompatActivity {
         health = (TextView)findViewById(R.id.health);
         cash = (TextView)findViewById(R.id.cash);
         coords = (TextView)findViewById(R.id.coords);
+        massStat = (TextView)findViewById(R.id.sellMass);
     }
 
-    public void playerSetup()
+    private void playerSetup()
     {
         p =  Player.getInstance();
         p.hardcodeItems();
@@ -173,9 +193,14 @@ public class MainActivity extends AppCompatActivity {
         updatePlayerStats();
     }
 
-    public void mapSetup()
+    private void mapSetup()
     {
         g = GameMap.getInstance();
         g.genLocations();
+    }
+
+    private void updateArea(Area update)
+    {
+        g.getGrid()[p.getRowLoc()][p.getColLoc()] = update;
     }
 }

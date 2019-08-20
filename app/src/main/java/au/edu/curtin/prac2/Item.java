@@ -43,4 +43,6 @@ public abstract class Item implements Parcelable{
         parcel.writeString(desc);
         parcel.writeInt(value);
     }
+
+    public abstract String displayStat();
 }
